@@ -1,12 +1,9 @@
 package com.shee.tarot.movieapp.feature_movie.data.data_source.remote
 
-import android.app.Application
-import com.shee.tarot.movieapp.feature_movie.data.data_source.remote.dto.MovieResponse
 import com.shee.tarot.movieapp.feature_movie.data.data_source.remote.dto.TopResponse
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
-import io.ktor.http.*
 
 class MoviesServiceImpl(
     private val client: HttpClient
