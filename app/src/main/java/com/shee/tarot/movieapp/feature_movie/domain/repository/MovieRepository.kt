@@ -11,5 +11,5 @@ interface MovieRepository {
 
     suspend fun insertMovie(movie: Movie)
 
-    suspend fun updateMovie(movie: Movie)
+    suspend fun deleteMovie(movie: Movie)
 }

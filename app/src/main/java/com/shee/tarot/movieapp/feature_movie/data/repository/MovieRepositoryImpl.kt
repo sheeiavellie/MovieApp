@@ -21,7 +21,7 @@ class MovieRepositoryImpl(
         movieDao.insertMovie(movie)
     }
 
-    override suspend fun updateMovie(movie: Movie) {
-        movieDao.updateMovie(movie)
+    override suspend fun deleteMovie(movie: Movie) {
+        movieDao.deleteMovie(movie)
     }
 }

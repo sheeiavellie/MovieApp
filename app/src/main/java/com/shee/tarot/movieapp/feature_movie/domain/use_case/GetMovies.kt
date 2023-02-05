@@ -3,7 +3,7 @@ package com.shee.tarot.movieapp.feature_movie.domain.use_case
 import com.shee.tarot.movieapp.feature_movie.domain.model.Movie
 import com.shee.tarot.movieapp.feature_movie.domain.repository.MovieRepository
 import com.shee.tarot.movieapp.feature_movie.domain.util.CategoryType
-import com.shee.tarot.movieapp.feature_movie.domain.util.MovieOrder
+import com.shee.tarot.movieapp.feature_movie.domain.util.MovieCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -12,20 +12,19 @@ class GetMovies(
 ) {
 
     operator fun invoke(
-        movieOrder: MovieOrder = MovieOrder.Category(CategoryType.Popular)
+        movieCategory: MovieCategory = MovieCategory.Category(CategoryType.Popular)
     ): Flow<List<Movie>> {
-        return repository.getMovies().map {
-                movies ->
-            when(movieOrder.categoryType) {
+        return repository.getMovies().map { movies ->
+            when(movieCategory.categoryType) {
 
                 is CategoryType.Popular -> {
-                    when(movieOrder) {
-                        is MovieOrder.Category -> movies.filter { !it.isFavorite }
+                    when(movieCategory) {
+                        is MovieCategory.Category -> movies.filter { !it.isFavorite }
                     }
                 }
                 is CategoryType.Favorite -> {
-                    when(movieOrder) {
-                        is MovieOrder.Category -> movies
+                    when(movieCategory) {
+                        is MovieCategory.Category -> movies
                     }
                 }
             }
