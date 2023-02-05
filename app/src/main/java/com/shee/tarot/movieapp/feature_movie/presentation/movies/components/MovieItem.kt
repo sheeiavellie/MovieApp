@@ -27,10 +27,9 @@ import com.shee.tarot.movieapp.ui.theme.RobotoTypography
 
 @Composable
 fun MovieItem (
-    name: String
-    /*movie: Movie,
+    movie: Movie,
     modifier: Modifier = Modifier,
-    onPutInFavoriteMovieClick: () -> Unit*/
+    onPutInFavoriteMovieClick: () -> Unit
 ) {
     
     Card(

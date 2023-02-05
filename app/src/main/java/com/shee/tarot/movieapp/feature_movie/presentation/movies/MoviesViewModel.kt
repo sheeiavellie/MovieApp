@@ -21,7 +21,7 @@ class MoviesViewModel @Inject constructor(
     private val moviesUseCases: MovieUseCases,
 ) : ViewModel() {
 
-    private var favoriteMovies: MutableList<Movie> = emptyList<Movie>() as MutableList<Movie>
+    //private var favoriteMovies: MutableList<Movie> = emptyList<Movie>() as MutableList<Movie>
 
     private var getMoviesJob: Job? = null
     private val _state = mutableStateOf<MoviesState>(MoviesState())

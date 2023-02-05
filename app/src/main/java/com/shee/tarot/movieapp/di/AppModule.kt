@@ -8,6 +8,7 @@ import com.shee.tarot.movieapp.feature_movie.domain.repository.MovieRepository
 import com.shee.tarot.movieapp.feature_movie.domain.use_case.GetMovies
 import com.shee.tarot.movieapp.feature_movie.domain.use_case.MovieUseCases
 import com.shee.tarot.movieapp.feature_movie.domain.use_case.DeleteMovie
+import com.shee.tarot.movieapp.feature_movie.domain.use_case.GetMovie
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,7 +43,8 @@ object AppModule {
 
         return MovieUseCases(
             getMovies = GetMovies(repository),
-            deleteMovie = DeleteMovie(repository)
+            deleteMovie = DeleteMovie(repository),
+            getMovie = GetMovie(repository)
         )
     }
 }
