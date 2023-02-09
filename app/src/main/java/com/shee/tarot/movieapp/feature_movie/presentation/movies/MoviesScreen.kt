@@ -37,17 +37,8 @@ fun MoviesScreen(
     val scope = rememberCoroutineScope()
     
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-
-                },
-                backgroundColor = MaterialTheme.colors.primary
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add movie")
-            }
-        },
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
+        backgroundColor = Color.White
     ) {
         Column(
             modifier = Modifier
@@ -62,28 +53,6 @@ fun MoviesScreen(
                 Text(
                     text = "Popular",
                     style = RobotoTypography.h1
-                )
-                IconButton(
-                    onClick = {
-                        viewModel.onEvent(MoviesEvent.ToggleSearchSection)
-                    },
-
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search Movie"
-                    )
-                }
-            }
-            AnimatedVisibility(
-                visible = state.isSearchSectionVisible,
-                enter = fadeIn() + slideInHorizontally(),
-                exit = fadeOut() + slideOutHorizontally()
-            ) {
-                SearchSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))

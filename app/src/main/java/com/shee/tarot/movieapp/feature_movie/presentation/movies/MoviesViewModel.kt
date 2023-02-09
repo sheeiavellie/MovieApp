@@ -2,13 +2,18 @@ package com.shee.tarot.movieapp.feature_movie.presentation.movies
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shee.tarot.movieapp.feature_movie.data.data_source.remote.MoviesService
+import com.shee.tarot.movieapp.feature_movie.data.data_source.remote.dto.ResponseToModelConverter
+import com.shee.tarot.movieapp.feature_movie.data.data_source.remote.dto.TopResponse
 import com.shee.tarot.movieapp.feature_movie.domain.model.Movie
 import com.shee.tarot.movieapp.feature_movie.domain.use_case.MovieUseCases
 import com.shee.tarot.movieapp.feature_movie.domain.util.CategoryType
 import com.shee.tarot.movieapp.feature_movie.domain.util.MovieCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.ktor.client.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
@@ -23,12 +28,14 @@ class MoviesViewModel @Inject constructor(
 
     //private var favoriteMovies: MutableList<Movie> = emptyList<Movie>() as MutableList<Movie>
 
+    private val moviesService = MoviesService.create()
+
     private var getMoviesJob: Job? = null
     private val _state = mutableStateOf<MoviesState>(MoviesState())
     val state: State<MoviesState> = _state
 
     init {
-
+        viewModelScope.launch { loadMovies(moviesService) }
         getMovies(MovieCategory.Category(CategoryType.Popular))
     }
 
@@ -45,19 +52,15 @@ class MoviesViewModel @Inject constructor(
                 viewModelScope.launch {
                     moviesUseCases.deleteMovie(event.movie)
                 }
+            }
+        }
+    }
 
-            }
-            is MoviesEvent.PutInFavoriteMovie -> {
-                event.movie.isFavorite = true
-            }
-            is MoviesEvent.PutOutFavoriteMovie -> {
-                event.movie.isFavorite = true
-            }
-            is MoviesEvent.ToggleSearchSection -> {
-                _state.value = state.value.copy(
-                    isSearchSectionVisible = !state.value.isSearchSectionVisible
-                )
-            }
+    private suspend fun loadMovies(moviesService: MoviesService) {
+        val movies = moviesService.getMovies()
+
+        ResponseToModelConverter.convert(movies).forEach { movie ->
+            moviesUseCases.insertMovie(movie)
         }
     }
 
@@ -66,7 +69,7 @@ class MoviesViewModel @Inject constructor(
         getMoviesJob?.cancel()
         getMoviesJob = moviesUseCases.getMovies(movieCategory)
             .onEach { movies ->
-                _state.value= state.value.copy(
+                _state.value = state.value.copy(
                     movies = movies,
                     movieCategory = movieCategory
                 )

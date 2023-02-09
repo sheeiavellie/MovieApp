@@ -3,14 +3,14 @@ package com.shee.tarot.movieapp.feature_movie.domain.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "movies")
 data class Movie(
     val title: String,
     val description: String,
-    //val genres: List<String>,
-    //val countries: List<String>,
+    val genres: String,
+    val countries: String,
     val posterURL: String,
     val posterPreviewURL: String,
-    var isFavorite: Boolean,
+    //val isFavorite: Boolean,
     @PrimaryKey val id: Int? = null
 )

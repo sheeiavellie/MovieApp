@@ -19,7 +19,7 @@ class GetMovies(
 
                 is CategoryType.Popular -> {
                     when(movieCategory) {
-                        is MovieCategory.Category -> movies.filter { !it.isFavorite }
+                        is MovieCategory.Category -> movies.filter { true }
                     }
                 }
                 is CategoryType.Favorite -> {
